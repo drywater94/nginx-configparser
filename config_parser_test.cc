@@ -9,3 +9,11 @@ TEST(NginxConfigParserTest, SimpleConfig) {
 
   EXPECT_TRUE(success);
 }
+
+TEST(NginxConfigParserTest, NestedConfig) {
+    NginxConfigParser parser_;
+    NginxConfig out_config_;
+
+    bool success = parser_.Parse("{ hello { foo bar; } }", &out_config_);
+    EXPECT_TRUE(success);
+}

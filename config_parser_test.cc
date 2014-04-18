@@ -10,10 +10,18 @@ TEST(NginxConfigParserTest, SimpleConfig) {
   EXPECT_TRUE(success);
 }
 
-TEST(NginxConfigParserTest, NestedConfig) {
-    NginxConfigParser parser_;
-    NginxConfig out_config_;
+class NginxStringConfigTest : public :: testing::Test
+{ 
+  protected: bool ParseString(const std::string & config_string)
+  { 
+    std::stringstream config_stream(config_string); 
+    return parser_.Parse(&config_stream, &out_config_); 
+  } 
+  NginxConfigParser parser_; 
+  NginxConfig out_config_; 
+};
 
-    bool success = parser_.Parse("{ hello { foo bar; } }", &out_config_);
-    EXPECT_TRUE(success);
+TEST_F(NginxStringConfigTest, NestedConfig) {
+    EXPECT_TRUE(ParseString("{ hello { foo bar; } }"));
 }
+
